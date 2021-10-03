@@ -31,13 +31,17 @@ def upload():
         os.remove(path)
         return jsonify(
             status='success',
-            predection=result,
+            data=result,
+            msg='',
+            code=200
         )
         # return render_ #str(model.runModel(path))
     else:
         return jsonify(
             status='fail',
-            predection=None,
+            data=None,
+            msg='Method Not Allowed',
+            code=405
         )
 
 
