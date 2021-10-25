@@ -53,20 +53,15 @@ def data_Preprocessing(test_dataset):
     return test_dataset
 
 
-def test(test_dataset):
-    model = load_model('./mymodel.h5')
-    predIdxs = model.predict(test_dataset)
-    predIdxs = np.argmax(predIdxs, axis=1)
-    return predIdxs
-
-
-def runModel(imgPath):
+def runModel(imgPath, model):
     build_test_tfrecord(imgPath)
 
     test_dataset = get_test_dataset(test_tfrecord)
     test_dataset = data_Preprocessing(test_dataset)
+    predIdxs = model.predict(test_dataset)
+    predIdxs = np.argmax(predIdxs, axis=1)
 
-    return getStrType(int(test(test_dataset)[0]))
+    return getStrType(int(predIdxs[0]))
 
 
 def getStrType(resultInt):

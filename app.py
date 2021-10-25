@@ -2,9 +2,11 @@ import os
 import uuid
 
 from flask import Flask, request, json, jsonify
+from keras.models import load_model
 
 import model
 
+dl_model = load_model('./mymodel.h5')
 app = Flask(__name__)
 
 app.secret_key = "cov-19"
@@ -27,7 +29,7 @@ def upload():
         f_name = str(uuid.uuid4()) + extension
         path = os.path.join(app.config['UPLOAD_FOLDER'], f_name)
         file.save(path)
-        result = model.runModel(path)
+        result = model.runModel(path, dl_model)
         os.remove(path)
         return jsonify(
             status='success',
